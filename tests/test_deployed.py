@@ -53,7 +53,7 @@ class TestServiceAccess:
     def test_root_contains_dashboard_title(self):
         """TC-DEPLOY-01-03: HTML에 대시보드 제목이 포함"""
         res = requests.get(f"{BASE_URL}/", timeout=30)
-        assert "Subscription Operations Dashboard" in res.text
+        assert "Subscription Management Dashboard" in res.text
 
     def test_health_endpoint(self):
         """TC-DEPLOY-01-04: /health 엔드포인트 200 OK"""

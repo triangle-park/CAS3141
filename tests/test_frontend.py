@@ -67,7 +67,7 @@ class TestDashboardAccess:
 
     def test_page_title(self, browser):
         """TC-FE-01-01: 페이지 제목이 올바르게 표시된다"""
-        assert "Subscription Operations Dashboard" in browser.title
+        assert "Subscription Management Dashboard" in browser.title
 
     def test_hero_section_visible(self, browser):
         """TC-FE-01-02: 히어로 섹션이 표시된다"""

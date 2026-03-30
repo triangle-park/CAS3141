@@ -401,7 +401,7 @@ class TestDashboardPage:
     def test_html_contains_title(self):
         """TC-BE-06-03: HTML에 대시보드 제목이 포함된다"""
         res = client.get("/")
-        assert "Subscription Operations Dashboard" in res.text
+        assert "Subscription Management Dashboard" in res.text
 
     def test_html_contains_subscriber_table(self):
         """TC-BE-06-04: HTML에 구독자 테이블 요소가 있다"""
