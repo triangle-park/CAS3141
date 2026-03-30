@@ -3,95 +3,81 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>webOS Subscription Management Dashboard</title>
+    <title>Subscription Subscriber Dashboard</title>
     <link rel="stylesheet" href="/static/style.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <header class="header">
-        <h1>webOS Subscription Management Dashboard</h1>
-        <p>Yonsei University DevOps Practice - Dummy Subscription Management Service</p>
-    </header>
+    <div class="page-shell">
+        <header class="hero">
+            <p class="hero-kicker">Requirement 1 Result Screen</p>
+            <h1>Subscription Subscriber Dashboard</h1>
+            <p>
+                Browse the full subscriber list, search by keyword, and filter the result
+                by subscription status in real time.
+            </p>
+        </header>
 
-    <main class="page">
-        <section class="panel">
-            <div class="panel-header">
-                <h2>Subscribers</h2>
-                <div class="toolbar">
-                    <input type="text" id="subscriber-search" placeholder="Search name / plan / status" />
-                    <select id="subscriber-status-filter">
-                        <option value="">All Status</option>
-                        <option value="Active">Active</option>
-                        <option value="Paused">Paused</option>
-                        <option value="Expired">Expired</option>
-                    </select>
+        <main class="page">
+            <section class="panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="section-kicker">Subscribers</p>
+                        <h2>Subscriber Lookup</h2>
+                        <p class="section-description">
+                            This screen is designed for the API contract of
+                            <strong>/api/subscribers</strong>.
+                        </p>
+                    </div>
+
+                    <div class="toolbar">
+                        <label class="field" for="subscriber-search">
+                            <span>Search</span>
+                            <input
+                                type="text"
+                                id="subscriber-search"
+                                placeholder="Name / plan / status / user ID"
+                            />
+                        </label>
+
+                        <label class="field" for="subscriber-status-filter">
+                            <span>Status</span>
+                            <select id="subscriber-status-filter">
+                                <option value="">All Status</option>
+                                <option value="Active">Active</option>
+                                <option value="Paused">Paused</option>
+                                <option value="Expired">Expired</option>
+                            </select>
+                        </label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>User ID</th>
-                            <th>Name</th>
-                            <th>Plan</th>
-                            <th>Status</th>
-                            <th>Devices</th>
-                        </tr>
-                    </thead>
-                    <tbody id="subscriber-body"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <section class="panel">
-            <div class="panel-header">
-                <h2>Devices</h2>
-                <div class="toolbar">
-                    <input type="text" id="device-search" placeholder="Search model / type / status" />
-                    <select id="device-status-filter">
-                        <option value="">All Device Status</option>
-                        <option value="Online">Online</option>
-                        <option value="Offline">Offline</option>
-                        <option value="Standby">Standby</option>
-                        <option value="Error">Error</option>
-                    </select>
+                <div class="panel-meta">
+                    <p id="subscriber-summary" class="summary" aria-live="polite">
+                        Loading subscribers...
+                    </p>
                 </div>
-            </div>
 
-            <div id="device-empty" class="empty-msg">Select a subscriber to view devices.</div>
+                <div class="table-card">
+                    <div id="subscriber-empty" class="empty-state hidden" aria-live="polite"></div>
 
-            <div class="table-wrap">
-                <table id="device-table" class="hidden">
-                    <thead>
-                        <tr>
-                            <th>Device ID</th>
-                            <th>Type</th>
-                            <th>Model</th>
-                            <th>Location</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="device-body"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <section class="panel">
-            <div class="panel-header">
-                <h2>Usage Detail</h2>
-            </div>
-
-            <div id="usage-empty" class="empty-msg">Select a device to view usage details.</div>
-
-            <div id="usage-detail" class="usage-detail hidden">
-                <div class="detail-grid" id="usage-info"></div>
-                <div class="chart-box">
-                    <canvas id="usageChart"></canvas>
+                    <div class="table-wrap">
+                        <table id="subscriber-table">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Name</th>
+                                    <th>Plan</th>
+                                    <th>Status</th>
+                                    <th>Devices</th>
+                                </tr>
+                            </thead>
+                            <tbody id="subscriber-body"></tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </section>
-    </main>
+            </section>
+        </main>
+    </div>
 
     <script src="/static/app.js"></script>
 </body>
