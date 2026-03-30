@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Subscription Subscriber Dashboard</title>
+    <title>Subscription Operations Dashboard</title>
     <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
     <div class="page-shell">
         <header class="hero">
-            <p class="hero-kicker">Requirement 1 Result Screen</p>
-            <h1>Subscription Subscriber Dashboard</h1>
+            <p class="hero-kicker">Requirements 1-2 Dashboard</p>
+            <h1>Subscription Operations Dashboard</h1>
             <p>
-                Browse the full subscriber list, search by keyword, and filter the result
-                by subscription status in real time.
+                Search subscribers, inspect registered devices, and review weekly
+                usage trends from a single dashboard flow.
             </p>
         </header>
 
-        <main class="page">
+        <main class="dashboard-grid">
             <section class="panel">
                 <div class="panel-header">
                     <div>
-                        <p class="section-kicker">Subscribers</p>
+                        <p class="section-kicker">Requirement 1</p>
                         <h2>Subscriber Lookup</h2>
                         <p class="section-description">
                             This screen is designed for the API contract of
@@ -73,6 +73,107 @@
                             </thead>
                             <tbody id="subscriber-body"></tbody>
                         </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header">
+                    <div>
+                        <p class="section-kicker">Requirement 2</p>
+                        <h2>Device Explorer</h2>
+                        <p class="section-description">
+                            Select a subscriber to load
+                            <strong>/api/subscribers/{userId}/devices</strong>.
+                        </p>
+                    </div>
+
+                    <div class="toolbar">
+                        <label class="field" for="device-search">
+                            <span>Search</span>
+                            <input
+                                type="text"
+                                id="device-search"
+                                placeholder="Model / type / status / location / device ID"
+                            />
+                        </label>
+
+                        <label class="field" for="device-status-filter">
+                            <span>Status</span>
+                            <select id="device-status-filter">
+                                <option value="">All Status</option>
+                                <option value="Online">Online</option>
+                                <option value="Offline">Offline</option>
+                                <option value="Standby">Standby</option>
+                                <option value="Error">Error</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="panel-meta">
+                    <p id="device-summary" class="summary" aria-live="polite">
+                        Select a subscriber to view registered devices.
+                    </p>
+                </div>
+
+                <div class="table-card">
+                    <div id="device-empty" class="empty-state" aria-live="polite">
+                        Select a subscriber to view registered devices.
+                    </div>
+
+                    <div class="table-wrap">
+                        <table id="device-table" class="hidden">
+                            <thead>
+                                <tr>
+                                    <th>Device ID</th>
+                                    <th>Type</th>
+                                    <th>Model</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="device-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel panel-stack">
+                <div class="panel-header">
+                    <div>
+                        <p class="section-kicker">Requirement 2</p>
+                        <h2>Usage Detail</h2>
+                        <p class="section-description">
+                            Select a device to load
+                            <strong>/api/devices/{deviceId}/usage</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="panel-meta">
+                    <p id="usage-summary" class="summary" aria-live="polite">
+                        Select a device to view usage details and the weekly trend.
+                    </p>
+                </div>
+
+                <div id="usage-empty" class="empty-state" aria-live="polite">
+                    Select a device to view usage details and the weekly trend.
+                </div>
+
+                <div id="usage-detail" class="usage-detail hidden">
+                    <div id="usage-info" class="detail-grid"></div>
+
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div>
+                                <p class="chart-kicker">Weekly Usage Trend</p>
+                                <h3>Bar Chart</h3>
+                            </div>
+                            <p class="chart-caption">Mon to Sun usage count</p>
+                        </div>
+
+                        <div id="usage-chart" class="chart-grid" role="img" aria-label="Weekly usage trend"></div>
                     </div>
                 </div>
             </section>
