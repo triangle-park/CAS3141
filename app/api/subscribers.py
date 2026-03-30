@@ -1,7 +1,16 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from app.data.dummy_data import subscribers, devices_by_user
 
 router = APIRouter()
+SEARCHABLE_FIELDS = ("userId", "name", "plan", "status")
+
+
+def _contains(value: str, keyword: str) -> bool:
+    return keyword in value.lower()
+
+
+def _subscriber_exists(user_id: str) -> bool:
+    return any(subscriber["userId"] == user_id for subscriber in subscribers)
 
 
 # =============================================================================
@@ -15,9 +24,61 @@ router = APIRouter()
 # - 참고: dummy_data.py의 subscribers 변수를 활용하세요.
 # =============================================================================
 @router.get("/subscribers")
-def get_subscribers():
+def get_subscribers(
+    search: str | None = Query(default=None),
+    q: str | None = Query(default=None),
+    userId: str | None = Query(default=None),
+    name: str | None = Query(default=None),
+    plan: str | None = Query(default=None),
+    status: str | None = Query(default=None),
+):
     # subscribers 리스트 전체를 반환
-    pass
+    filtered_subscribers = subscribers
+    search_keyword = (search or q or "").strip().lower()
+
+    if search_keyword:
+        filtered_subscribers = [
+            subscriber
+            for subscriber in filtered_subscribers
+            if any(
+                _contains(str(subscriber[field]), search_keyword)
+                for field in SEARCHABLE_FIELDS
+            )
+        ]
+
+    if userId:
+        keyword = userId.strip().lower()
+        filtered_subscribers = [
+            subscriber
+            for subscriber in filtered_subscribers
+            if _contains(subscriber["userId"], keyword)
+        ]
+
+    if name:
+        keyword = name.strip().lower()
+        filtered_subscribers = [
+            subscriber
+            for subscriber in filtered_subscribers
+            if _contains(subscriber["name"], keyword)
+        ]
+
+    if plan:
+        keyword = plan.strip().lower()
+        filtered_subscribers = [
+            subscriber
+            for subscriber in filtered_subscribers
+            if subscriber["plan"].lower() == keyword
+        ]
+
+    if status:
+        keyword = status.strip().lower()
+        filtered_subscribers = [
+            subscriber
+            for subscriber in filtered_subscribers
+            if subscriber["status"].lower() == keyword
+        ]
+
+    return filtered_subscribers
 
 # =============================================================================
 # TODO [요구사항 #2]: GET /api/subscribers/{user_id}/devices
@@ -37,4 +98,7 @@ def get_devices_by_user(user_id: str):
     # 1. subscribers 리스트에서 user_id가 존재하는지 확인
     # 2. 존재하면 devices_by_user에서 해당 사용자의 디바이스 목록 반환
     # 3. 존재하지 않으면 HTTPException(status_code=404) 발생
-    pass
+    if not _subscriber_exists(user_id):
+        raise HTTPException(status_code=404, detail="Subscriber not found")
+
+    return devices_by_user.get(user_id, [])
