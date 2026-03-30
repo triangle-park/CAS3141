@@ -9,15 +9,46 @@
 <body>
     <div class="page-shell">
         <header class="hero">
-            <p class="hero-kicker">webOS Dashboard</p>
-            <h1>webOS Subscription Management Dashboard</h1>
-            <p>
-                Yonsei University DevOps Practice - Dummy Subscription Management Service
-            </p>
+            <div class="hero-copy">
+                <p class="hero-kicker">webOS Dashboard</p>
+                <h1>webOS Subscription Management Dashboard</h1>
+                <p class="hero-description">
+                    Yonsei University DevOps Practice - Dummy Subscription Management Service
+                </p>
+            </div>
+
+            <div class="hero-side">
+                <article class="hero-note">
+                    <span class="hero-note-label">Large Screen Layout</span>
+                    <strong>Subscribers first, details next</strong>
+                    <p>
+                        The main table spans the full width, while devices and usage
+                        details stay comfortably readable below.
+                    </p>
+                </article>
+
+                <article class="hero-note">
+                    <span class="hero-note-label">Interaction</span>
+                    <strong>Fast lookup flow</strong>
+                    <p>
+                        Search, filter, select a subscriber, and move straight into
+                        device status and weekly activity.
+                    </p>
+                </article>
+
+                <article class="hero-note">
+                    <span class="hero-note-label">Visual Status</span>
+                    <strong>Clear badge hierarchy</strong>
+                    <p>
+                        Active, paused, expired, online, and error states stay consistent
+                        across tables and detail cards.
+                    </p>
+                </article>
+            </div>
         </header>
 
         <main class="dashboard-grid">
-            <section class="panel">
+            <section class="panel panel-subscribers">
                 <div class="panel-header">
                     <div>
                         <p class="section-kicker">Subscribers</p>
@@ -76,7 +107,7 @@
                 </div>
             </section>
 
-            <section class="panel">
+            <section class="panel panel-devices">
                 <div class="panel-header">
                     <div>
                         <p class="section-kicker">Devices</p>
@@ -138,7 +169,7 @@
                 </div>
             </section>
 
-            <section class="panel panel-stack">
+            <section class="panel panel-usage panel-stack">
                 <div class="panel-header">
                     <div>
                         <p class="section-kicker">Usage Detail</p>
