@@ -3,6 +3,7 @@ from app.data.dummy_data import subscribers, devices_by_user
 
 router = APIRouter()
 SEARCHABLE_FIELDS = ("userId", "name", "plan", "status")
+DEVICE_SEARCHABLE_FIELDS = ("deviceId", "type", "model", "location", "status")
 
 
 def _contains(value: str, keyword: str) -> bool:
@@ -94,11 +95,73 @@ def get_subscribers(
 # - 참고: devices_by_user 딕셔너리를 활용하세요.
 # =============================================================================
 @router.get("/subscribers/{user_id}/devices")
-def get_devices_by_user(user_id: str):
+def get_devices_by_user(
+    user_id: str,
+    search: str | None = Query(default=None),
+    q: str | None = Query(default=None),
+    deviceId: str | None = Query(default=None),
+    type: str | None = Query(default=None),
+    model: str | None = Query(default=None),
+    location: str | None = Query(default=None),
+    status: str | None = Query(default=None),
+):
     # 1. subscribers 리스트에서 user_id가 존재하는지 확인
     # 2. 존재하면 devices_by_user에서 해당 사용자의 디바이스 목록 반환
     # 3. 존재하지 않으면 HTTPException(status_code=404) 발생
     if not _subscriber_exists(user_id):
         raise HTTPException(status_code=404, detail="Subscriber not found")
 
-    return devices_by_user.get(user_id, [])
+    filtered_devices = devices_by_user.get(user_id, [])
+    search_keyword = (search or q or "").strip().lower()
+
+    if search_keyword:
+        filtered_devices = [
+            device
+            for device in filtered_devices
+            if any(
+                _contains(str(device[field]), search_keyword)
+                for field in DEVICE_SEARCHABLE_FIELDS
+            )
+        ]
+
+    if deviceId:
+        keyword = deviceId.strip().lower()
+        filtered_devices = [
+            device
+            for device in filtered_devices
+            if _contains(device["deviceId"], keyword)
+        ]
+
+    if type:
+        keyword = type.strip().lower()
+        filtered_devices = [
+            device
+            for device in filtered_devices
+            if _contains(device["type"], keyword)
+        ]
+
+    if model:
+        keyword = model.strip().lower()
+        filtered_devices = [
+            device
+            for device in filtered_devices
+            if _contains(device["model"], keyword)
+        ]
+
+    if location:
+        keyword = location.strip().lower()
+        filtered_devices = [
+            device
+            for device in filtered_devices
+            if _contains(device["location"], keyword)
+        ]
+
+    if status:
+        keyword = status.strip().lower()
+        filtered_devices = [
+            device
+            for device in filtered_devices
+            if device["status"].lower() == keyword
+        ]
+
+    return filtered_devices
